@@ -29,7 +29,7 @@ it("should have correct ownership", function(done) {
     //console.log("shaData:"+shaData);
     //console.log("shaAsci:"+shaAsci);
 
-    var encValue = "...";
+    var encValue = "..."; //need a way to encrypt data on js (eth-lightwallet?)
     pd.setFact(factName,encValue,shaAsci)
     .then (function(tx){
         //console.log("tx:"+tx);
