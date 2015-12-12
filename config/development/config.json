@@ -1,0 +1,7 @@
+{
+	"rpc": {
+		// Ethersim default config
+		"host": "localhost",
+		"port": 8101
+	}
+}
