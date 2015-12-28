@@ -5,12 +5,22 @@
     "app.js": [
       // Paths relative to "app" directory that should be
       // concatenated and processed during build.
-      "javascripts/app.js"
+      "../node_modules/react/dist/react.js",
+      "../node_modules/react-dom/dist/react-dom.js",
+      "../node_modules/react-router/umd/ReactRouter.js",
+      "../node_modules/react-bootstrap/dist/react-bootstrap.js",
+      "../node_modules/hooked-web3-provider/build/hooked-web3-provider.js",
+      "../node_modules/eth-lightwallet/dist/lightwallet.min.js",
+      "../lib/persona.js",  //Still not public
+      "javascripts/NavBar.jsx",
+      "javascripts/App.jsx"
     ],
     "app.css": [
       // Paths relative to "app" directory that should be
-      // concatenated and processed during build.
-      "stylesheets/app.css"
+      // concatenated and processed during build.cd
+      "stylesheets/app.css",
+      "stylesheets/bootstrap.min.css"
+
     ],
     // Note: You can also include directories.
     // This will copy a static images directory to the build directory.
@@ -18,11 +28,11 @@
   },
   "deploy": [
     // Names of contracts that should be deployed to the network.
-    "PersonaData"
+    "Example"
   ],
   "rpc": {
     // Default RPC configuration.
     "host": "localhost",
-    "port": 8545
+    "port": 8101
   }
 }

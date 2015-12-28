@@ -1,0 +1,19 @@
+{
+  "name": "user-controlled-kyc",
+  "repository": "https://github.com/ajunge/user-controlled-kyc",
+  "author": "Andres Junge",
+  "version": "0.0.1",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^0.14.3",
+    "react-bootstrap": "^0.28.1",
+    "react-dom": "^0.14.3",
+    "history": "1.13.1",
+    "react-router": "latest",
+    "hooked-web3-provider": "latest",
+    "eth-lightwallet": "latest"
+  },
+  "scripts": {
+    "build": "truffle build"
+  }
+}
