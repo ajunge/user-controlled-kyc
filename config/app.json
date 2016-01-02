@@ -12,6 +12,12 @@
       "../node_modules/hooked-web3-provider/build/hooked-web3-provider.js",
       "../node_modules/eth-lightwallet/dist/lightwallet.min.js",
       "../lib/persona.js",  //Still not public
+      "../lib/keystore-api.js", //Not npm yet
+      "../lib/jquery-1.11.3.min.js", //Need to change to npm dep
+      "javascripts/Login.jsx",
+      "javascripts/Register.jsx",
+      "javascripts/Dashboard.jsx",
+      "javascripts/FrontPage.jsx",
       "javascripts/NavBar.jsx",
       "javascripts/App.jsx"
     ],
@@ -24,7 +30,8 @@
     ],
     // Note: You can also include directories.
     // This will copy a static images directory to the build directory.
-    "images/": "images/"
+    "images/": "images/",
+    "fonts/" : "fonts/"
   },
   "deploy": [
     // Names of contracts that should be deployed to the network.

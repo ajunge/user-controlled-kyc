@@ -8,7 +8,7 @@
     "react": "^0.14.3",
     "react-bootstrap": "^0.28.1",
     "react-dom": "^0.14.3",
-    "history": "1.13.1",
+    "history": "1.17.0",
     "react-router": "latest",
     "hooked-web3-provider": "latest",
     "eth-lightwallet": "latest"

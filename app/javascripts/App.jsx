@@ -5,7 +5,6 @@ window.Route = ReactRouter.Route;
 window.Router = ReactRouter.Router;
 window.IndexRoute = ReactRouter.IndexRoute;
 
-
 //Bootstap-react
 window.Glyphicon = ReactBootstrap.Glyphicon;
 window.Panel = ReactBootstrap.Panel;
@@ -21,98 +20,77 @@ window.NavItem = ReactBootstrap.NavItem;
 window.Nav = ReactBootstrap.Nav;
 window.NavDropdown = ReactBootstrap.NavDropdown;
 window.MenuItem = ReactBootstrap.MenuItem;
+window.Well = ReactBootstrap.Well;
+window.Image = ReactBootstrap.Image;
 
 
 var App = React.createClass({
-  componentDidMount: function(){
-	console.log("did mount"); 
-	// generate a new BIP32 12-word seed
-	var secretSeed = lightwallet.keystore.generateRandomSeed();
-	console.log("seed:"+secretSeed);
+  getInitialState: function() {
+	    return {keystoreData: '', personaContract: null, personaSchema: null};
+	},
 
-	var secretSeed="suffer common monster peasant boss earth brain sausage manage loan road average";
+	setKeystoreData: function(_keystoreData){
+    this.setState({keystoreData: _keystoreData})
 
-	// the seed is stored encrypted by a user-defined password
-	var password = 'pass'; //prompt('Enter password for encryption', 'password');
-	var ks = new lightwallet.keystore(secretSeed, password);
+    var ks= lightwallet.keystore.deserialize(JSON.stringify(_keystoreData.keystore));
+    var addr = '0x'+ks.getAddresses()[0];
+    console.log("addr:"+addr);
 
-  console.log(ks.serialize());
-  try{
-  console.log(ks.getSeed(password+"a"));
-  } catch(e){
-    console.log("Te cache")
-    console.log(e)
-  }
-
-	// generate five new address/private key pairs
-	// the corresponding private keys are also encrypted
-	ks.generateNewAddress(password);
-	var addr = '0x' +ks.getAddresses();
-	//var addr= '0x' + '5196e50d212fcdc27305f7c13ba5bc522b9a717b ';
-	console.log(addr);
-
-	// Create a custom passwordProvider to prompt the user to enter their
-	// password whenever the hooked web3 provider issues a sendTransaction
-	// call.
-	ks.passwordProvider = function (callback) {
-	  var pw = prompt("Please enter password", "Password");
-	  callback(null, pw);
-	};
-
-	// Now set ks as transaction_signer in the hooked web3 provider
-	// and you can start using web3 using the keys/addresses in ks!
     var web3Provider = new HookedWeb3Provider({
       host: "http://104.131.53.68:8545",
       //host: "http://localhost:8545",
       transaction_signer: ks
     });
-    
     web3.setProvider(web3Provider);
+
+    console.log("balance:"+web3.eth.getBalance(addr).toNumber());
 
     Persona.setWeb3Provider(web3Provider);
     Persona.setIpfsProvider({host: '104.236.65.136', port : '5001'});
     Persona.setRegistry('0x8b5429bdf4e24f508154aa864675a007e618e79e');
-    Persona.of(addr).then(function(persona) {
-      console.log("persona (contract)")
-      console.log(persona);
-	  return persona.getInfo("personSchema");
-	}).then(function(info) {
-		console.log("personSchema")
-		console.log(info)
-		console.log("img: http://104.236.65.136:8080/"+info.image.contentUrl)
-	});
-  },	
+    Persona.of(addr).then(function(_personaContract) {
+      console.log("_personaContract")
+      console.log(_personaContract);
+      this.setState({personaContract: _personaContract});
+      return _personaContract.getInfo("personSchema");
+    }.bind(this)).then(function(_personaSchema) {
+      console.log("_personaSchema")
+      console.log(_personaSchema)
+      this.setState({personaSchema: _personaSchema})
+      //console.log("img: http://104.236.65.136:8080/"+_personaSchema.image.contentUrl)
+    }.bind(this));
+
+
+	},
 
   render: function() {
-    return (
-      <div>
-        <NavBar />
-        <div className="container-fluid">
-        {this.props.children}
-        </div>
-      </div>
-    );
-  }
-});
+     var childProps = {
+       keystoreData: this.state.keystoreData,
+       setKeystoreData: this.setKeystoreData,
+       personaContract: this.state.personaContract,
+       personaSchema: this.state.personaSchema
+     }
+	    return (
+	      <div>
+	        <NavBar keystoreData={this.state.keystoreData} personaSchema={this.state.personaSchema} setKeystoreData={this.setKeystoreData} />
+	        <div className="container-fluid">
+	        {React.cloneElement(this.props.children, childProps)}
+	        </div>
+	      </div>
+	    );
+	  }
 
-var Dashboard = React.createClass({
-  render: function() {
-    return (
-      <div>
-        (dashboard to be included)
-      </div>
-    );
-  }
 });
-
 
 
 window.onload = function() {
     ReactDOM.render((
     <Router>
       <Route path="/" component={App}>
-        <IndexRoute component={Dashboard} />
-
+        <IndexRoute component={FrontPage} />
+        <Route path="/register" component={Register} />
+        <Route path="/login" component={Login} />
+        <Route path="/dashboard" component={Dashboard} />
       </Route>
     </Router>
     ), document.getElementById('root'))
