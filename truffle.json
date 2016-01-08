@@ -1,10 +1,7 @@
 {
   "build": {
-    // Copy ./app/index.html (right hand side) to ./build/index.html.
     "index.html": "index.html",
     "app.js": [
-      // Paths relative to "app" directory that should be
-      // concatenated and processed during build.
       "../node_modules/react/dist/react.js",
       "../node_modules/react-dom/dist/react-dom.js",
       "../node_modules/react-router/umd/ReactRouter.js",
@@ -22,24 +19,17 @@
       "javascripts/App.jsx"
     ],
     "app.css": [
-      // Paths relative to "app" directory that should be
-      // concatenated and processed during build.cd
       "stylesheets/app.css",
       "stylesheets/bootstrap.min.css"
-
     ],
-    // Note: You can also include directories.
-    // This will copy a static images directory to the build directory.
     "images/": "images/",
     "fonts/" : "fonts/"
   },
   "deploy": [
-    // Names of contracts that should be deployed to the network.
-    "Example"
+    "FactFactory"
   ],
   "rpc": {
-    // Default RPC configuration.
     "host": "localhost",
-    "port": 8101
+    "port": 8545
   }
 }
