@@ -26,7 +26,7 @@ window.Image = ReactBootstrap.Image;
 
 var App = React.createClass({
   getInitialState: function() {
-	    return {keystoreData: '', personaContract: null, personaSchema: null};
+	    return {keystoreData: '',  personaSchema: null};
 	},
 
 	setKeystoreData: function(_keystoreData){
@@ -37,37 +37,38 @@ var App = React.createClass({
     console.log("addr:"+addr);
 
     var web3Provider = new HookedWeb3Provider({
-      host: "http://104.131.53.68:8545",
+      //host: "http://morden.cloudapp.net:8545",
+      host: "http://104.236.65.136:8545",
       //host: "http://localhost:8545",
       transaction_signer: ks
     });
     web3.setProvider(web3Provider);
 
-    console.log("balance:"+web3.eth.getBalance(addr).toNumber());
+    web3.eth.getBalance(addr, function(err, bal){
+      console.log('Balance: ' + (bal / 1.0e18) + ' ETH');
+    });
 
     Persona.setWeb3Provider(web3Provider);
     Persona.setIpfsProvider({host: '104.236.65.136', port : '5001'});
-    Persona.setRegistry('0x8b5429bdf4e24f508154aa864675a007e618e79e');
-    Persona.of(addr).then(function(_personaContract) {
-      console.log("_personaContract")
-      console.log(_personaContract);
-      this.setState({personaContract: _personaContract});
-      return _personaContract.getInfo("personSchema");
-    }.bind(this)).then(function(_personaSchema) {
-      console.log("_personaSchema")
-      console.log(_personaSchema)
-      this.setState({personaSchema: _personaSchema})
-      //console.log("img: http://104.236.65.136:8080/"+_personaSchema.image.contentUrl)
-    }.bind(this));
 
+    Persona.getPersonaAttributes('0xd65e0311162d01cec291d00cc9a0806b7e0ed5ed', addr)
+    .then(function(_info) {
+      console.log(_info);
+      if(_info.personSchema != null){
+        this.setState({personaSchema: _info.personSchema})
+      }
+    }.bind(this))
+    .catch(function(e) {
+      	  console.log("catch!");
+          done(e);
+    });
 
-	},
+  },
 
   render: function() {
      var childProps = {
        keystoreData: this.state.keystoreData,
        setKeystoreData: this.setKeystoreData,
-       personaContract: this.state.personaContract,
        personaSchema: this.state.personaSchema
      }
 	    return (

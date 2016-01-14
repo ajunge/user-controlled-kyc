@@ -11,7 +11,8 @@
     "history": "1.17.0",
     "react-router": "latest",
     "hooked-web3-provider": "latest",
-    "eth-lightwallet": "latest"
+    "eth-lightwallet": "latest",
+    "scrypt-async": "latest"
   },
   "scripts": {
     "build": "truffle build"

@@ -4,7 +4,7 @@ var Dashboard = React.createClass({
 		history: React.PropTypes.object,
 	},
 	getInitialState: function() {
-	    return {ks: ''};
+	    return {ks: '', balance: 0};
 	},
 	componentDidMount: function(){
 		if(this.props.keystoreData == ''){
@@ -13,7 +13,16 @@ var Dashboard = React.createClass({
 		}else{
 			var ks= lightwallet.keystore.deserialize(JSON.stringify(this.props.keystoreData.keystore));
 			this.setState({ks: ks});
+
+      addr = '0x'+ks.getAddresses()[0];
+      web3.eth.getBalance(addr, function(err, bal){
+        var balance=(bal / 1.0e18)
+        this.setState({balance: balance});
+        console.log('Balance: ' + balance + ' ETH');
+      }.bind(this));
     }
+
+
 	},
 
 
@@ -24,10 +33,7 @@ var Dashboard = React.createClass({
     }
     if(this.state.ks != '') {
       mainAddr = '0x'+this.state.ks.getAddresses()[0];
-      balance = web3.eth.getBalance(mainAddr).toNumber();
-    }
-    if(this.props.personaContract != null) {
-      personaContractAddress = this.props.personaContract.address;
+      balance = this.state.balance + " ETH";
     }
 
     var personaSchemaName,personaSchemaAvatar;
@@ -57,10 +63,6 @@ var Dashboard = React.createClass({
         <tr>
           <td>Balance</td>
           <td>{balance}</td>
-        </tr>
-        <tr>
-          <td>Persona Contract</td>
-          <td><code>{personaContractAddress}</code></td>
         </tr>
         <tr>
           <td>Persona Name</td>

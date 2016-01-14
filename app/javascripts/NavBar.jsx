@@ -54,7 +54,9 @@ var NavBar = React.createClass({
 		userOptions = (
 			<Nav pullRight>
           <NavItem eventKey={1} onClick={this.goToLogin} >Login</NavItem>
-				  <NavItem eventKey={2} onClick={this.goToRegister} >Register</NavItem>
+				  {/*
+					<NavItem eventKey={2} onClick={this.goToRegister} >Register</NavItem>
+					*/}
           <NavItem eventKey={3} onClick={this.goToSettings} >Settings</NavItem>
 			</Nav>
 		);

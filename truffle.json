@@ -8,6 +8,7 @@
       "../node_modules/react-bootstrap/dist/react-bootstrap.js",
       "../node_modules/hooked-web3-provider/build/hooked-web3-provider.js",
       "../node_modules/eth-lightwallet/dist/lightwallet.min.js",
+      "../node_modules/scrypt-async/scrypt-async.min.js",
       "../lib/persona.js",  //Still not public
       "../lib/keystore-api.js", //Not npm yet
       "../lib/jquery-1.11.3.min.js", //Need to change to npm dep
